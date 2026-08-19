@@ -40,12 +40,17 @@
     });
   }
 
-  // ── Nav scroll-spy ────────────────────────────────
+  // ── Nav: scroll-spy, and surface the bar past the hero ──
+  var nav = document.querySelector('nav');
+  var hero = document.querySelector('.hero');
   var sections = document.querySelectorAll('section[id]');
   var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
   function onScroll() {
-    var scrollY = window.scrollY + 80;
+    var threshold = hero ? hero.offsetHeight - 80 : 200;
+    nav.classList.toggle('scrolled', window.scrollY > threshold);
+
+    var scrollY = window.scrollY + 100;
     sections.forEach(function (sec) {
       if (sec.offsetTop <= scrollY && sec.offsetTop + sec.offsetHeight > scrollY) {
         navLinks.forEach(function (a) {
