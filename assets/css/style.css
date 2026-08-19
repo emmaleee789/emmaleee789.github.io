@@ -39,7 +39,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 56px;
+  scroll-padding-top: 72px;
 }
 
 body {
@@ -99,7 +99,8 @@ nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
+  height: 72px;
+  padding-top: 0.35rem;
 }
 
 .nav-brand {
@@ -108,13 +109,16 @@ nav .container {
   gap: 0.7rem;
   color: var(--fg);
   min-width: 0;
+  line-height: 0;
 }
 
 .nav-mark {
+  display: block;
   width: 22px;
   height: 22px;
   flex-shrink: 0;
   opacity: 0.85;
+  overflow: visible;
   transition: opacity 0.25s ease;
 }
 .nav-brand:hover .nav-mark { opacity: 1; }
