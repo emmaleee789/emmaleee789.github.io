@@ -66,17 +66,16 @@
   onScroll();
 
   // ── Transport trajectories ────────────────────────
-  // Brownian-bridge paths. Displayed state is a lightly underdamped
-  // spring, so the curves flex and overshoot instead of lagging stiffly.
-  // Amplitude grows as you move down the page; a third KL mode and a
-  // velocity-dependent shear keep the family from moving as a rigid set.
+  // Brownian-bridge paths (first two KL modes on [0,1]).
+  // Endpoints and mode amplitudes are functions of scroll;
+  // the displayed state tracks the target through a first-order lag,
+  // so the curves move like a dynamical system rather than 1:1 with the wheel.
   var canvas = document.querySelector('.flow-field');
 
   if (canvas && !reducedMotion) {
     var ctx = canvas.getContext('2d');
     var dpr = 1;
     var state = 0;
-    var vel = 0;
     var target = 0;
     var LINES = 5;
     var STEPS = 80;
@@ -108,21 +107,17 @@
     function at(i, u, t, w, h) {
       var tau = t * Math.PI * 2;
       var u0 = (i + 0.65) / (LINES + 0.4);
-      var flex = 1 + 0.5 * t;
-      var x0 = w * (0.08 + 0.84 * u0 + 0.055 * Math.sin(tau + i * 1.1));
-      var x1 = w * (0.08 + 0.84 * u0 + 0.08 * Math.cos(tau * 0.85 + i * 1.4));
+      var x0 = w * (0.08 + 0.84 * u0 + 0.035 * Math.sin(tau + i * 1.1));
+      var x1 = w * (0.08 + 0.84 * u0 + 0.05 * Math.cos(tau * 0.85 + i * 1.4));
       var y0 = h * 0.07;
       var y1 = h * 0.93;
-      var a1 = w * 0.30 * flex * Math.sin(tau + i * 0.9);
-      var a2 = w * 0.13 * flex * Math.sin(tau * 1.7 + i * 1.6 + 0.4);
-      var a3 = w * 0.05 * flex * Math.sin(tau * 2.4 + i * 0.5);
-      var b1 = h * 0.08 * flex * Math.cos(tau * 0.6 + i);
+      var a1 = w * 0.22 * Math.sin(tau + i * 0.9);
+      var a2 = w * 0.09 * Math.sin(tau * 1.7 + i * 1.6 + 0.4);
+      var b1 = h * 0.055 * Math.cos(tau * 0.6 + i);
       var su = Math.sin(Math.PI * u);
       var su2 = Math.sin(2 * Math.PI * u);
-      var su3 = Math.sin(3 * Math.PI * u);
-      var shear = vel * w * 0.9 * su * (i - 2);
       return {
-        x: (1 - u) * x0 + u * x1 + a1 * su + a2 * su2 + a3 * su3 + shear,
+        x: (1 - u) * x0 + u * x1 + a1 * su + a2 * su2,
         y: (1 - u) * y0 + u * y1 + b1 * su
       };
     }
@@ -257,18 +252,12 @@
 
     function tick() {
       target = progress();
-      var err = target - state;
-      vel += err * 0.04;
-      vel *= 0.86;
-      if (vel > 0.07) vel = 0.07;
-      if (vel < -0.07) vel = -0.07;
-      state += vel;
+      state += (target - state) * 0.065;
       draw();
-      if (Math.abs(err) > 0.00035 || Math.abs(vel) > 0.00012) {
+      if (Math.abs(target - state) > 0.0004) {
         raf = requestAnimationFrame(tick);
       } else {
         state = target;
-        vel = 0;
         draw();
         raf = 0;
       }
