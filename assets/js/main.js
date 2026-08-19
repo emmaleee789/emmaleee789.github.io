@@ -73,12 +73,21 @@
   var canvas = document.querySelector('.flow-field');
 
   if (canvas && !reducedMotion) {
-    var ctx = canvas.getContext('2d');
+    var ctx = canvas.getContext('2d', { alpha: true });
     var dpr = 1;
     var state = 0;
     var target = 0;
     var LINES = 5;
-    var STEPS = 80;
+    var STEPS = 48;
+    var lastInput = 0;
+    var raf = 0;
+    var ink = '#17161A';
+    var clay = '#9A6B52';
+    var buffers = [];
+    for (var bi = 0; bi < LINES; bi++) {
+      buffers[bi] = [];
+      for (var bs = 0; bs <= STEPS; bs++) buffers[bi][bs] = { x: 0, y: 0 };
+    }
 
     function hexAlpha(hex, a) {
       hex = hex.trim();
@@ -91,6 +100,12 @@
       return hex;
     }
 
+    function cacheColors() {
+      var cs = getComputedStyle(document.documentElement);
+      ink = cs.getPropertyValue('--fg').trim();
+      clay = cs.getPropertyValue('--accent').trim();
+    }
+
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(window.innerWidth * dpr);
@@ -99,12 +114,16 @@
       canvas.style.height = window.innerHeight + 'px';
     }
 
-    function progress() {
-      var max = document.documentElement.scrollHeight - window.innerHeight;
-      return max > 0 ? window.scrollY / max : 0;
+    function scrollY() {
+      return window.pageYOffset || document.documentElement.scrollTop || 0;
     }
 
-    function at(i, u, t, w, h) {
+    function progress() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      return max > 0 ? scrollY() / max : 0;
+    }
+
+    function sampleInto(pts, i, t, w, h) {
       var tau = t * Math.PI * 2;
       var u0 = (i + 0.65) / (LINES + 0.4);
       var x0 = w * (0.08 + 0.84 * u0 + 0.035 * Math.sin(tau + i * 1.1));
@@ -114,23 +133,18 @@
       var a1 = w * 0.22 * Math.sin(tau + i * 0.9);
       var a2 = w * 0.09 * Math.sin(tau * 1.7 + i * 1.6 + 0.4);
       var b1 = h * 0.055 * Math.cos(tau * 0.6 + i);
-      var su = Math.sin(Math.PI * u);
-      var su2 = Math.sin(2 * Math.PI * u);
-      return {
-        x: (1 - u) * x0 + u * x1 + a1 * su + a2 * su2,
-        y: (1 - u) * y0 + u * y1 + b1 * su
-      };
-    }
-
-    function sample(i, t, w, h) {
-      var pts = [];
-      for (var s = 0; s <= STEPS; s++) pts.push(at(i, s / STEPS, t, w, h));
-      return pts;
+      for (var s = 0; s <= STEPS; s++) {
+        var u = s / STEPS;
+        var su = Math.sin(Math.PI * u);
+        var p = pts[s];
+        p.x = (1 - u) * x0 + u * x1 + a1 * su + a2 * Math.sin(2 * Math.PI * u);
+        p.y = (1 - u) * y0 + u * y1 + b1 * su;
+      }
     }
 
     function normal(pts, s) {
       var a = pts[Math.max(0, s - 1)];
-      var b = pts[Math.min(pts.length - 1, s + 1)];
+      var b = pts[Math.min(STEPS, s + 1)];
       var dx = b.x - a.x;
       var dy = b.y - a.y;
       var len = Math.hypot(dx, dy) || 1;
@@ -141,21 +155,24 @@
       ctx.strokeStyle = color;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      for (var s = 0; s < pts.length - 1; s++) {
-        var u = s / (pts.length - 1);
-        var swell = Math.pow(Math.sin(Math.PI * u), 0.65);
+      var s = 0;
+      while (s < STEPS) {
+        var u = s / STEPS;
+        var swell = Math.sin(Math.PI * u);
+        var end = Math.min(STEPS, s + 4);
         ctx.beginPath();
         ctx.moveTo(pts[s].x, pts[s].y);
-        ctx.lineTo(pts[s + 1].x, pts[s + 1].y);
+        for (var k = s + 1; k <= end; k++) ctx.lineTo(pts[k].x, pts[k].y);
         ctx.lineWidth = weight * (0.28 + 0.72 * swell);
         ctx.stroke();
+        s = end;
       }
     }
 
     function drawDashed(pts, color, weight) {
       ctx.beginPath();
       ctx.moveTo(pts[0].x, pts[0].y);
-      for (var s = 1; s < pts.length; s++) ctx.lineTo(pts[s].x, pts[s].y);
+      for (var s = 1; s <= STEPS; s++) ctx.lineTo(pts[s].x, pts[s].y);
       ctx.strokeStyle = color;
       ctx.lineWidth = weight;
       ctx.setLineDash([1.5, 7]);
@@ -166,7 +183,7 @@
 
     function drawRibbon(pts, color, offset) {
       ctx.beginPath();
-      for (var s = 0; s < pts.length; s++) {
+      for (var s = 0; s <= STEPS; s++) {
         var n = normal(pts, s);
         var x = pts[s].x + n.x * offset;
         var y = pts[s].y + n.y * offset;
@@ -183,7 +200,7 @@
       ctx.lineWidth = 0.8;
       ctx.lineCap = 'butt';
       for (var k = 0; k < us.length; k++) {
-        var s = Math.round(us[k] * (pts.length - 1));
+        var s = Math.round(us[k] * STEPS);
         var p = pts[s];
         var n = normal(pts, s);
         ctx.beginPath();
@@ -214,15 +231,12 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
-      var cs = getComputedStyle(document.documentElement);
-      var ink = cs.getPropertyValue('--fg');
-      var clay = cs.getPropertyValue('--accent');
       var t = state;
-
       for (var i = 0; i < LINES; i++) {
-        var pts = sample(i, t, w, h);
+        var pts = buffers[i];
+        sampleInto(pts, i, t, w, h);
         var first = pts[0];
-        var last = pts[pts.length - 1];
+        var last = pts[STEPS];
 
         if (i === 0) {
           drawDashed(pts, hexAlpha(ink, 0.22), 0.8);
@@ -248,13 +262,15 @@
       }
     }
 
-    var raf = 0;
-
-    function tick() {
-      target = progress();
-      state += (target - state) * 0.065;
+    function tick(now) {
+      var next = progress();
+      if (Math.abs(next - target) > 1e-6) lastInput = now;
+      target = next;
+      state += (target - state) * 0.1;
       draw();
-      if (Math.abs(target - state) > 0.0004) {
+      var settling = Math.abs(target - state) > 0.00035;
+      var recent = now - lastInput < 220;
+      if (settling || recent) {
         raf = requestAnimationFrame(tick);
       } else {
         state = target;
@@ -264,13 +280,17 @@
     }
 
     function kick() {
+      lastInput = performance.now();
       if (!raf) raf = requestAnimationFrame(tick);
     }
 
+    cacheColors();
     resize();
     draw();
     window.addEventListener('resize', function () { resize(); kick(); }, { passive: true });
     window.addEventListener('scroll', kick, { passive: true });
-    toggle?.addEventListener('click', function () { draw(); });
+    window.addEventListener('wheel', kick, { passive: true });
+    window.addEventListener('touchmove', kick, { passive: true });
+    toggle?.addEventListener('click', function () { cacheColors(); draw(); });
   }
 })();
