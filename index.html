@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ziying (Emma) Li</title>
+  <meta name="description" content="Ziying (Emma) Li — Research on stochastic transport, diffusion models, and 3D generative modeling.">
+  <meta property="og:title" content="Ziying (Emma) Li">
+  <meta property="og:description" content="Research on stochastic transport, diffusion models, and 3D generative modeling.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/brogadier-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ── Nav ────────────────────────────────────────── -->
+<nav>
+  <div class="container">
+    <span class="nav-name">Ziying (Emma) Li</span>
+    <ul class="nav-links">
+      <li><a href="#news">news</a></li>
+      <li><a href="#publications">publications</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#education">education</a></li>
+      <li><button class="theme-toggle" aria-label="Toggle theme"><span>☾</span></button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────── -->
+<header class="hero">
+  <div class="container">
+    <h1>Ziying (Emma) Li</h1>
+    <p class="subtitle">M.Eng. in Software Engineering · Zhejiang University</p>
+    <p class="bio">
+      I study stochastic transport for generative modeling, with a focus on
+      diffusion and flow-matching methods applied to 3D content creation.
+      My recent work recasts text-to-3D generation as explicit Schrödinger-Bridge
+      transport and co-develops large-scale DiT-style foundation models for
+      image-to-3D generation.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:emmaleee@zju.edu.cn">emmaleee@zju.edu.cn</a>
+      <a href="https://github.com/emmaleee789" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/ziying-li-49516327b/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="assets/cv.pdf" target="_blank">CV</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── News ───────────────────────────────────────── -->
+<section id="news" class="reveal">
+  <div class="container">
+    <h2>News</h2>
+    <ul class="news-list">
+      <li>
+        <span class="news-date">Sep 2026</span>
+        <span>Hi3D 3.0 technical report to appear on arXiv — a 6.6B-parameter native image-to-3D foundation model.</span>
+      </li>
+      <li>
+        <span class="news-date">2026</span>
+        <span>Serving as reviewer for NeurIPS 2026 and IEEE Transactions on Multimedia.</span>
+      </li>
+      <li>
+        <span class="news-date">Sep 2025</span>
+        <span>Our paper <em>Walking the Schrödinger Bridge</em> was accepted at NeurIPS 2025 as a poster.</span>
+      </li>
+      <li>
+        <span class="news-date">2027</span>
+        <span>Preparing an ICLR 2027 submission on supervising conditional velocity covariance in flow matching.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Publications ───────────────────────────────── -->
+<section id="publications" class="reveal">
+  <div class="container">
+    <h2>Publications</h2>
+
+    <div class="pub">
+      <p class="pub-title">Walking the Schrödinger Bridge: A Direct Trajectory for Text-to-3D Generation</p>
+      <p class="pub-authors">
+        <strong>Ziying Li</strong>, Xuequan Lu, Xinkui Zhao, Guanjie Cheng, Shuiguang Deng, and Jianwei Yin
+      </p>
+      <p class="pub-venue">NeurIPS 2025, Poster</p>
+      <p class="pub-keywords">Diffusion models · Schrödinger Bridge · text-to-3D generation · 3D Gaussian Splatting</p>
+      <div class="pub-links">
+        <a href="#">pdf</a>
+        <a href="#">github</a>
+        <a href="#">video</a>
+        <a href="#">slides</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <p class="pub-title">Hi3D 3.0 Technical Report: Next Generation 3D-Native Foundation Model for Image-to-Geometry Generation</p>
+      <p class="pub-authors">
+        <strong>Ziying Li</strong>, Yiyang Chen, Shengchu Zhao, Huiang He, Jiaqi Wu, Yibo Luo, Hu Zhang, Heliang Zheng, Rongfei Jia
+      </p>
+      <p class="pub-venue">Technical Report, arXiv Sep. 2026</p>
+      <p class="pub-keywords">3D generative modeling · flow matching · 3D VAE · image-to-3D generation · representation learning</p>
+      <div class="pub-links">
+        <a href="#">website</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Experience ─────────────────────────────────── -->
+<section id="experience" class="reveal">
+  <div class="container">
+    <h2>Research Experience</h2>
+
+    <div class="exp">
+      <div class="exp-header">
+        <span class="exp-role">Research Intern</span>
+        <span class="exp-date">Dec 2025 – Present</span>
+      </div>
+      <p class="exp-org">Math Magic · Advisor: Xiaowei Zhou · Project Lead: Heliang Zheng</p>
+      <p>
+        Co-developing Hi3D 3.0, a 6.6B-parameter image-to-3D foundation model with an MMDiT
+        flow-matching backbone. Designed the two-stage generative space — a TRELLIS-style sparse
+        convolutional autoencoder for structure followed by a vecset VAE for fixed-size latent
+        tokenization — and co-designed the semantic conditioning pipeline (dense DINOv3 via joint
+        attention, pooled SigLIP2 via AdaLN, modality-decoupled 3D RoPE). Built the REPA
+        alignment teacher to supervise denoiser features entirely within the 3D latent space. Diagnosed
+        and corrected a systematic velocity deficit in flow-matching transport using MAFM modulus matching.
+      </p>
+    </div>
+
+    <div class="exp">
+      <div class="exp-header">
+        <span class="exp-role">Research Assistant</span>
+        <span class="exp-date">May 2026 – Present</span>
+      </div>
+      <p class="exp-org">Zhejiang University · Advisor: Xiaowei Zhou</p>
+      <p>
+        Investigating occluded-region failures in image-to-3D flow matching, traced to
+        unsupervised conditional velocity covariance. Proposed a directional second-moment matching
+        loss that supervises the Jacobian-implied covariance against single-sample even-order targets,
+        preserving the flow-matching optimum while restoring branch commitment through sampling dynamics.
+        Preparing submission to ICLR 2027.
+      </p>
+    </div>
+
+    <div class="exp">
+      <div class="exp-header">
+        <span class="exp-role">Research Assistant</span>
+        <span class="exp-date">Dec 2024 – Jun 2025</span>
+      </div>
+      <p class="exp-org">Zhejiang University & University of Western Australia · Advisors: Xuequan Lu, Xinkui Zhao</p>
+      <p>
+        Recast Score Distillation Sampling as a degenerate Schrödinger Bridge and proposed TraCe,
+        a distillation framework that rebuilds the bridge between the current rendering and its
+        text-conditioned denoised target, refreshing both endpoints at every optimization step.
+        Validated on 3D Gaussian Splatting across 83 prompts and 120 views, outperforming SDS, VSD,
+        CSD, SDI, and ISM on CLIP Score, GPTEval3D, and ImageReward. Published at NeurIPS 2025.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Education ──────────────────────────────────── -->
+<section id="education" class="reveal">
+  <div class="container">
+    <h2>Education</h2>
+
+    <div class="edu">
+      <div class="edu-header">
+        <span class="edu-school">Zhejiang University</span>
+        <span class="edu-date">Sep 2024 – Jun 2027 (Expected)</span>
+      </div>
+      <p class="edu-degree">M.Eng. in Software Engineering</p>
+    </div>
+
+    <div class="edu">
+      <div class="edu-header">
+        <span class="edu-school">University of Illinois Urbana-Champaign</span>
+        <span class="edu-date">Sep 2020 – May 2024</span>
+      </div>
+      <p class="edu-degree">B.S. in Computer Engineering</p>
+    </div>
+
+    <div class="edu">
+      <div class="edu-header">
+        <span class="edu-school">Zhejiang University</span>
+        <span class="edu-date">Sep 2020 – May 2024</span>
+      </div>
+      <p class="edu-degree">B.Eng. in Electronic and Computer Engineering</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Awards ─────────────────────────────────────── -->
+<section id="awards" class="reveal">
+  <div class="container">
+    <h2>Awards & Honors</h2>
+    <ul class="compact-list">
+      <li>Member, Tau Beta Pi (American Engineering Honor Society) <span class="list-year">2023</span></li>
+      <li>Tau Beta Pi Outstanding Junior Award <span class="list-year">2023</span></li>
+      <li>First Prize, International Division — Mathematical Contest in Modeling (Top 7%) <span class="list-year">2021</span></li>
+      <li>UIUC Dean's List <span class="list-year">2021</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Service ────────────────────────────────────── -->
+<section id="service" class="reveal">
+  <div class="container">
+    <h2>Service</h2>
+    <ul class="compact-list">
+      <li>Reviewer, NeurIPS 2026</li>
+      <li>Reviewer, IEEE Transactions on Multimedia</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Skills ─────────────────────────────────────── -->
+<section id="skills" class="reveal">
+  <div class="container">
+    <h2>Technical Skills</h2>
+    <dl class="skills-grid">
+      <dt>Languages</dt>
+      <dd>Python, C/C++, CUDA, Bash</dd>
+      <dt>Tools & Frameworks</dt>
+      <dd>PyTorch, DeepSpeed, CUDA, DDP/NCCL, gradient checkpointing, Git, Docker</dd>
+      <dt>Generative Modeling</dt>
+      <dd>Diffusion / flow matching, Schrödinger Bridge, Optimal Transport, DiT / MMDiT, VAE, LoRA, representation alignment</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Ziying (Emma) Li</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
