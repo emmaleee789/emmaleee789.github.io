@@ -24,6 +24,10 @@ The `.nojekyll` file is already included so GitHub Pages serves the files as-is.
 
 All content lives in `index.html`. Publication links currently point to `#` — replace them with real URLs. To add a headshot, place an image in `assets/` and add an `<img>` tag in the hero section.
 
+## Icon
+
+The site mark is a Brogadier **L**, used as the favicon (`assets/icons/favicon.svg`) and as a small house mark in the nav. PNG and ICO fallbacks live alongside it for older browsers and iOS home-screen icons.
+
 ## Fonts
 
 Headings and the name use **Brogadier**, self-hosted from `assets/fonts/brogadier-regular.ttf` and declared via `@font-face`. Body text uses Inter from Google Fonts.

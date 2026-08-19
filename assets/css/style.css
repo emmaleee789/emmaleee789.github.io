@@ -102,6 +102,23 @@ nav .container {
   height: 56px;
 }
 
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--fg);
+  min-width: 0;
+}
+
+.nav-mark {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
+}
+.nav-brand:hover .nav-mark { opacity: 1; }
+
 .nav-name {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -110,6 +127,7 @@ nav .container {
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
+  white-space: nowrap;
 }
 nav.scrolled .nav-name { opacity: 1; pointer-events: auto; }
 

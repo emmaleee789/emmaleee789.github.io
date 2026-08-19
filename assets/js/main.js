@@ -9,6 +9,8 @@
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
     if (icon) icon.textContent = theme === 'dark' ? '☀' : '☾';
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#131315' : '#FBFAF8');
   }
 
   const saved = localStorage.getItem('theme');
