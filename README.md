@@ -30,7 +30,7 @@ The site mark is a Brogadier **L**, used as the favicon (`assets/icons/favicon.s
 
 ## Fonts
 
-Headings and the name use **Brogadier**, self-hosted from `assets/fonts/brogadier-regular.ttf` and declared via `@font-face`. Body text uses Inter from Google Fonts.
+Headings and the name use **Brogadier**, self-hosted from `assets/fonts/brogadier-regular.ttf`. Body text uses the system UI font so the page does not depend on Google Fonts (which often stall in mainland China and can leave the tab blank until refresh).
 
 `assets/fonts/glycerints-regular.ttf` is also present but unused. To switch back, change the `@font-face` block and the `--font-display` value in `assets/css/style.css`, plus the preload link in `index.html`.
 

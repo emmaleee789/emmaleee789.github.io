@@ -16,8 +16,8 @@
   --accent: #9A6B52;
   --rule: #E3E0DA;
 
-  --font-display: 'Brogadier', 'Instrument Serif', 'Georgia', serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Brogadier', 'Georgia', 'Times New Roman', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
 
   --width: 860px;
   --rail: 130px;
